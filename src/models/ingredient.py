@@ -1,6 +1,6 @@
 from enum import Enum
 
-# comment for my first commit
+
 class Restriction(Enum):
     ANIMAL_DERIVED = "ANIMAL_DERIVED"
     ANIMAL_MEAT = "ANIMAL_MEAT"
