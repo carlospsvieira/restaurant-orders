@@ -15,9 +15,7 @@ class MenuBuilder:
     def make_order(self, dish_name: str) -> None:
         try:
             curr_dish = [
-                dish
-                for dish in self.menu_data.dishes
-                if dish.name == dish_name
+                dish for dish in self.menu_data.menu if dish.name == dish_name
             ][0]
         except IndexError:
             raise ValueError("Dish does not exist")
@@ -25,5 +23,20 @@ class MenuBuilder:
         self.inventory.consume_recipe(curr_dish.recipe)
 
     # Req 4
-    def get_main_menu(self, restriction=None) -> List[Dict]:
-        pass
+    def get_main_menu(self, restriction=None) -> list:
+        menu = []
+
+        for dish in self.menu_data.dishes:
+            restrictions = dish.get_restrictions()
+            available = self.inventory.check_recipe_availability(dish.recipe)
+
+            if restriction not in restrictions and available:
+                dish_info = {
+                    "dish_name": dish.name,
+                    "ingredients": dish.get_ingredients(),
+                    "price": dish.price,
+                    "restrictions": restrictions,
+                }
+                menu.append(dish_info)
+
+        return menu
